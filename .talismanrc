@@ -4,5 +4,5 @@ fileignoreconfig:
 - filename: Student-Service/mvnw
   checksum: 3db90aafd61c22e3ebf20682daabd7bce05c7249d1e00fd33b334ec2fe87b93f
 - filename: database/address.sql
-  checksum: 23defce005d8ac2afd01a9470ddc4327a1fa99c01641df1552089723be7a88d5
+  checksum: ee2accc22e3bed74aad350805fdb7084fab53799cf79c4892eb96379ebc806c5
 version: "1.0"

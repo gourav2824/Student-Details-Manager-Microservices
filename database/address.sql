@@ -4,7 +4,7 @@ USE university_db;
 
 CREATE TABLE Address
 (
-    id   int NOT NULL PRIMARY KEY,
+    id   INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
     area VARCHAR(50),
     city VARCHAR(50)
 );
