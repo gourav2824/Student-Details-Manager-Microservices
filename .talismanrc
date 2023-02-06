@@ -1,0 +1,6 @@
+fileignoreconfig:
+- filename: Address-Service/mvnw
+  checksum: d6ffa56a6abbbf6e8d12f9bae5757a89e1cb820404e311b0db5b2d7ff5fe690a
+- filename: Student-Service/mvnw
+  checksum: 3db90aafd61c22e3ebf20682daabd7bce05c7249d1e00fd33b334ec2fe87b93f
+version: "1.0"
