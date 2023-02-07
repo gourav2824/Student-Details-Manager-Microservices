@@ -5,4 +5,6 @@ fileignoreconfig:
   checksum: 3db90aafd61c22e3ebf20682daabd7bce05c7249d1e00fd33b334ec2fe87b93f
 - filename: database/address.sql
   checksum: ee2accc22e3bed74aad350805fdb7084fab53799cf79c4892eb96379ebc806c5
+- filename: database/student.sql
+  checksum: fe4f95b7e2f8923307fe83bf21e2ee6dc5fe938fd80ba733347ed3e4c995076f
 version: "1.0"
