@@ -1,6 +1,8 @@
 fileignoreconfig:
 - filename: Address-Service/mvnw
   checksum: d6ffa56a6abbbf6e8d12f9bae5757a89e1cb820404e311b0db5b2d7ff5fe690a
+- filename: Eureka-Server/mvnw
+  checksum: ed7898f2279bd4293800c16cfa89f469540a5ed02257d2794d6edfae4dcf6cd2
 - filename: Student-Service/mvnw
   checksum: 3db90aafd61c22e3ebf20682daabd7bce05c7249d1e00fd33b334ec2fe87b93f
 - filename: database/address.sql
