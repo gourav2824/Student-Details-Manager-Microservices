@@ -9,21 +9,16 @@ import gourav.studentdetailsmanager.studentservice.response.StudentResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class StudentService {
-    private static final String CREATE_ADDRESS_URL = "/address/create";
-
     private final StudentRepository studentRepository;
     private final AddressFeignClient addressFeignClient;
-    private final WebClient webClient;
     private final Logger logger;
 
-    public StudentService(StudentRepository studentRepository, AddressFeignClient addressFeignClient, WebClient webClient) {
+    public StudentService(StudentRepository studentRepository, AddressFeignClient addressFeignClient) {
         this.studentRepository = studentRepository;
         this.addressFeignClient = addressFeignClient;
-        this.webClient = webClient;
         logger = LoggerFactory.getLogger(StudentService.class);
     }
 
@@ -31,12 +26,12 @@ public class StudentService {
         final Student student = studentRepository.findById(studentId).orElse(null);
         if (student == null) return null;
         logger.info("Student found with id {} : {}", studentId, student);
-        final AddressDto address = getAddressFromFeignClient(student.getAddressId());
+        final AddressDto address = addressFeignClient.getAddress(student.getAddressId());
         return getStudentResponse(student, address);
     }
 
     public StudentResponse createStudent(CreateStudentRequest createStudentRequest) {
-        final AddressDto address = createAddress(
+        final AddressDto address = addressFeignClient.createAddress(
                 new AddressDto(createStudentRequest.getArea(), createStudentRequest.getCity()));
 
         Student student = new Student(
@@ -49,19 +44,6 @@ public class StudentService {
 
         logger.info("Student created successfully : {}", student);
         return getStudentResponse(student, address);
-    }
-
-    private AddressDto getAddressFromFeignClient(int addressId) {
-        return addressFeignClient.getAddress(addressId);
-    }
-
-    private AddressDto createAddress(AddressDto addressDto) {
-        return webClient.post()
-                .uri(CREATE_ADDRESS_URL)
-                .bodyValue(addressDto)
-                .retrieve()
-                .bodyToMono(AddressDto.class)
-                .block();
     }
 
     private StudentResponse getStudentResponse(Student student, AddressDto address) {
