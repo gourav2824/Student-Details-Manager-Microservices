@@ -1,6 +1,7 @@
 package gourav.studentdetailsmanager.studentservice.service;
 
 import gourav.studentdetailsmanager.studentservice.dto.AddressDto;
+import gourav.studentdetailsmanager.studentservice.feignclient.AddressFeignClient;
 import gourav.studentdetailsmanager.studentservice.model.Student;
 import gourav.studentdetailsmanager.studentservice.repository.StudentRepository;
 import gourav.studentdetailsmanager.studentservice.request.CreateStudentRequest;
@@ -12,15 +13,16 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
 public class StudentService {
-    private static final String ADDRESS_URL_PREFIX = "/address/";
-    private static final String CREATE_ADDRESS_URL = ADDRESS_URL_PREFIX + "create";
+    private static final String CREATE_ADDRESS_URL = "/address/create";
 
     private final StudentRepository studentRepository;
+    private final AddressFeignClient addressFeignClient;
     private final WebClient webClient;
     private final Logger logger;
 
-    public StudentService(StudentRepository studentRepository, WebClient webClient) {
+    public StudentService(StudentRepository studentRepository, AddressFeignClient addressFeignClient, WebClient webClient) {
         this.studentRepository = studentRepository;
+        this.addressFeignClient = addressFeignClient;
         this.webClient = webClient;
         logger = LoggerFactory.getLogger(StudentService.class);
     }
@@ -29,7 +31,7 @@ public class StudentService {
         final Student student = studentRepository.findById(studentId).orElse(null);
         if (student == null) return null;
         logger.info("Student found with id {} : {}", studentId, student);
-        final AddressDto address = getAddress(student.getAddressId());
+        final AddressDto address = getAddressFromFeignClient(student.getAddressId());
         return getStudentResponse(student, address);
     }
 
@@ -49,12 +51,8 @@ public class StudentService {
         return getStudentResponse(student, address);
     }
 
-    private AddressDto getAddress(int addressId) {
-        return webClient.get()
-                .uri(ADDRESS_URL_PREFIX + addressId)
-                .retrieve()
-                .bodyToMono(AddressDto.class)
-                .block();
+    private AddressDto getAddressFromFeignClient(int addressId) {
+        return addressFeignClient.getAddress(addressId);
     }
 
     private AddressDto createAddress(AddressDto addressDto) {
