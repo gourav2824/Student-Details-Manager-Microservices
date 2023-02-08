@@ -17,3 +17,8 @@ server:
 
 address-service:
   url: "http://localhost:8082/address-service-api"
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
