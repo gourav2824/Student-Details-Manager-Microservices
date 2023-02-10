@@ -29,7 +29,7 @@ public class AddressService {
     public Address getAddress(int addressId) {
         final Optional<Address> address = addressRepository.findById(addressId);
         if (address.isPresent()) {
-            logger.info("Found Address with id {} : {}", addressId, address.get());
+            logger.info("Address found with id {} : {}", addressId, address.get());
             return address.get();
         }
         return null;
