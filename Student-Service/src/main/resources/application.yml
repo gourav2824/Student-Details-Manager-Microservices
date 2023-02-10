@@ -15,9 +15,6 @@ server:
   servlet:
     context-path: /student-service-api
 
-address-service:
-  url: "http://localhost:8082/address-service-api"
-
 eureka:
   client:
     service-url:
