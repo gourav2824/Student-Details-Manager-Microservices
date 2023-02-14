@@ -18,6 +18,11 @@ public class CustomFilter implements GlobalFilter {
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
         // Pre-filter
         final ServerHttpRequest request = exchange.getRequest();
+
+        if (request.getURI().toString().contains("/address-service-api")) {
+            logger.info("Request for Address Service");
+        }
+
         logger.info("Pre-filter");
         logger.info("Authorization = " + request.getHeaders().getFirst("Authorization"));
 
