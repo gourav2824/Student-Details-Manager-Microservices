@@ -16,10 +16,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 @FeignClient(value = "api-gateway")
 public interface GatewayFeignClient {
+    String ADDRESS_SERVICE_PATH = "address-service/address-service-api/address";
 
-    @GetMapping("address-service/address-service-api/address/{id}")
+    @GetMapping(ADDRESS_SERVICE_PATH + "/{id}")
     AddressDto getAddress(@PathVariable Integer id);
 
-    @PostMapping("address-service/address-service-api/address/create")
+    @PostMapping(ADDRESS_SERVICE_PATH + "/create")
     AddressDto createAddress(@RequestBody AddressDto createAddressRequest);
 }
