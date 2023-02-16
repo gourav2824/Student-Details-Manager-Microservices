@@ -1,3 +1,9 @@
+// Now we don't have to add Load Balancer Client for Address Service
+// as we are not using the Address Service directly from Student Service.
+// Now, we are calling Address Service through API gateway
+// and API gateway will automatically do the load balancing by itself.
+
+/*
 package gourav.studentdetailsmanager.studentservice.config;
 
 import feign.Feign;
@@ -16,3 +22,4 @@ public class AddressServiceLoadBalancerConfig {
         return Feign.builder();
     }
 }
+*/

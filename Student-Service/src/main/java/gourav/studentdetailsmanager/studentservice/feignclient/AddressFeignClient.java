@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "address-service", path = "/address-service-api/address")
+// Note: if we will do this kind of setup, then we will be able to call only Address Service from our API gateway
+// as we cannot create another Feign Client with the same value i.e., "api-gateway"
+@FeignClient(value = "api-gateway", path = "address-service/address-service-api/address")
 public interface AddressFeignClient {
 
     @GetMapping("/{id}")
