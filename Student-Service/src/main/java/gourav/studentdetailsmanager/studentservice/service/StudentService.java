@@ -1,7 +1,7 @@
 package gourav.studentdetailsmanager.studentservice.service;
 
 import gourav.studentdetailsmanager.studentservice.dto.AddressDto;
-import gourav.studentdetailsmanager.studentservice.feignclient.AddressFeignClient;
+import gourav.studentdetailsmanager.studentservice.feignclient.GatewayFeignClient;
 import gourav.studentdetailsmanager.studentservice.model.Student;
 import gourav.studentdetailsmanager.studentservice.repository.StudentRepository;
 import gourav.studentdetailsmanager.studentservice.request.CreateStudentRequest;
@@ -13,12 +13,12 @@ import org.springframework.stereotype.Service;
 @Service
 public class StudentService {
     private final StudentRepository studentRepository;
-    private final AddressFeignClient addressFeignClient;
+    private final GatewayFeignClient feignClient;
     private final Logger logger;
 
-    public StudentService(StudentRepository studentRepository, AddressFeignClient addressFeignClient) {
+    public StudentService(StudentRepository studentRepository, GatewayFeignClient feignClient) {
         this.studentRepository = studentRepository;
-        this.addressFeignClient = addressFeignClient;
+        this.feignClient = feignClient;
         logger = LoggerFactory.getLogger(StudentService.class);
     }
 
@@ -26,12 +26,12 @@ public class StudentService {
         final Student student = studentRepository.findById(studentId).orElse(null);
         if (student == null) return null;
         logger.info("Student found with id {} : {}", studentId, student);
-        final AddressDto address = addressFeignClient.getAddress(student.getAddressId());
+        final AddressDto address = feignClient.getAddress(student.getAddressId());
         return getStudentResponse(student, address);
     }
 
     public StudentResponse createStudent(CreateStudentRequest createStudentRequest) {
-        final AddressDto address = addressFeignClient.createAddress(
+        final AddressDto address = feignClient.createAddress(
                 new AddressDto(createStudentRequest.getArea(), createStudentRequest.getCity()));
 
         Student student = new Student(
